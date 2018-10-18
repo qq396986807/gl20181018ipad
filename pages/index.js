@@ -3,6 +3,7 @@ import { Component } from 'react'
 import Head from 'next/head'
 import Game from '../src/game'
 import $ from  'jquery'
+import NodeRSA from  'node-rsa'
 
 export default class extends Component {
 
@@ -37,6 +38,25 @@ export default class extends Component {
             $(".mask").fadeOut(500);
             $(".rankBox").fadeOut(500);
         })
+
+        // const publickey = '-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6KzAVhTxDl/6EUTtCbtRFOPKA4/WOD9WOSP+vxIa7+wjHnNXtWWf2JuzlTapHrx++J8K9zn75tGibXHsZb/DHvp4Pl50Ln2w1VhYuwg2MAUuf/Q2c8dIhM8srRmPGqEn621GTK0cNGweyLR1y88epLSt6MnbQAY89vGVd/LR5TwIDAQAB-----END PUBLIC KEY-----';
+
+        // const key = new NodeRSA({b: 512});
+        // key.importKey(publickey, 'pkcs8-public');
+
+        // //var pubKey = new NodeRSA(publickey,'pkcs8-public');//导入公钥
+        // var encrypted = key.encrypt('hithere', 'base64'); //使用公钥加密字符串
+        // console.log('========encrypted: ', encrypted);
+ 
+        // const privatekey = '-----BEGIN RSA PRIVATE KEY-----MIICXQIBAAKBgQC6KzAVhTxDl/6EUTtCbtRFOPKA4/WOD9WOSP+vxIa7+wjHnNXtWWf2JuzlTapHrx++J8K9zn75tGibXHsZb/DHvp4Pl50Ln2w1VhYuwg2MAUuf/Q2c8dIhM8srRmPGqEn621GTK0cNGweyLR1y88epLSt6MnbQAY89vGVd/LR5TwIDAQABAoGAWD1WKi0flk45pc+2zdMoK7NFRhBGeFJK/4jcIBx/XCQtUielQj2pSAPFLx5zwkxgOEoyRLLWflajalgYRMNJFSSZA9tCPmIID32OYmVm+ChCt5sTxvrugzDvA8zVz/p97Kbz1/8BezTa4fWOfvrmPH0JrOkVcTJYpu5WlDVcf9ECQQDnVVlKccb/a8us71FIVCZo6gBnwBf9sVeEj2WVIQdrzIYVQfVMguTiDSL0GT6FonL84XTNM8kJOYpwG9mq9GCXAkEAzgT9Tm3aRMAG+33pCjED05za1OwwXf3xSeFNH4p9PMEsga/cew8RpZcfC+qLj/t/yiDhf5TpHytJzQ20g9oMCQJAMYNAAEIH8KVWy6XRROTV78Cd45bmy6LIc5PpjxipqPX2gNhEM2MUsBlVsN8yVZHmgJ+Uy1LZJYNOUR504TU68wJBAIUxUJreBpkgFOOO+ZTvL2wmIow5zuNVhCOhl3zmyiT3NtD5Y2/jxCLsWtQXZPdHP8zsCR20pirSj7oUPDpqRBECQQCANhG5Oo8eP0CU0Ruik7GmA6RuLbryEtCc3urf1VEp/ebhi8ynGyC8FNxwUe+kqYwJHNvkU8WqkxhSoPsU4+WO-----END RSA PRIVATE KEY-----';
+        // const key2 = new NodeRSA({b: 512});
+        // key2.importKey(privatekey, 'pkcs1-private');
+
+        // var decrypted = key2.decrypt(encrypted, 'base64');
+        // console.log('========decrypted: ', decrypted);       
+        // //var flag = key.verify('hithere', encrypted);
+
+        // //console.log('========verify: ', flag==true? "success": "fail");
     }
 
     render() {
