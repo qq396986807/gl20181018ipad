@@ -4,11 +4,13 @@ import Boot from './boot'
 import Start from './start'
 import Play from './play'
 
-const { preload } = Core
+const { preload,loadAssets,preloadNew } = Core
 
 export let bestScore = 0;
 export let score = 0;
 export let availableCircle = 4;
+
+let boot = null;
 
 export default class Game extends Core {
 
@@ -24,26 +26,43 @@ export default class Game extends Core {
         canvas.style.width = window.innerWidth + 'px'
         canvas.style.height = document.body.clientHeight + 'px'
 
-        this.boot = new Boot()
+        //this.boot = new Boot()
+        boot = new Boot();
         this.start = new Start()
         this.play = new Play()
+
         this.init()
     }
 
     async init() {
 
         // Display the boot state
-        this.boot.display()
+        //boot.display()
         // During the boot state preload assets
         await preload()
+        await this.loadHomePageAssets()
+
         // Sleep until the visibility duration of the boot state
-        await sleep(this.boot.VISIBILITY_DURATION)
+        await sleep(boot.VISIBILITY_DURATION)
         // Hide the boot state
-        this.boot.hide()
+        //boot.hide()
         // Wait the end of the animation
-        await sleep(this.boot.HIDE_ANIMATION_DURATION)
+        await sleep(boot.HIDE_ANIMATION_DURATION)
         // Show the start menu
         this.start.show(this.play.run.bind(this.play))
+    }
+
+    async loadHomePageAssets()
+    {
+        loadAssets();
+        preloadNew(function(progress){
+            console.log("=============preload" + progress);
+            boot.drawLoadingProcess(parseInt(progress*100));
+        }, function(){
+            console.log('============all content loaded!');
+
+            boot.display();
+        })
     }
 }
 

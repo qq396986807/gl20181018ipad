@@ -1,5 +1,7 @@
 "use strict"
 
+import Preloader from 'preloader'
+
 export let context = null
 export let canvas = null
 export let halfCanvasHeight = null
@@ -14,9 +16,14 @@ const assetsPath = [
     `${assetsRoot}/Circle.png`
 ]
 
+export let homePageAssetsPath = [];
+
+
 const cacheImage = []
 
 const BLOCK_RADIUS = 20
+
+let loader = null;
 
 export class Core {
 
@@ -31,6 +38,10 @@ export class Core {
 
         halfCanvasHeight = (window.innerHeight * scale) / 2;
         halfCanvasWidth = (window.innerWidth * scale) / 2;
+
+        loader = Preloader({
+          xhrImages: false
+        });
     }
 
     /**
@@ -48,6 +59,28 @@ export class Core {
         })
 
         return Promise.all(loadingAssets)
+    }
+
+    static async loadAssets() {
+
+        // home page assets
+        for(var i=0;i<75;i++){
+            var img = assetsRoot + '/page/'+i+'.png';
+            homePageAssetsPath.push(img);
+        }
+    }
+
+    static async preloadNew(progressCallback, completeCallback) {
+
+        loader.on('progress', progressCallback);
+
+        loader.on('complete', completeCallback);
+
+        for (var i = homePageAssetsPath.length - 1; i >= 0; i--) {
+            loader.add(homePageAssetsPath[i]);
+        }
+        
+        loader.load();
     }
 
     /**
@@ -213,5 +246,9 @@ export class Core {
         return new Promise(async (resolve) => {
             await setTimeout(resolve, ms);
         })
+    }
+
+    static clearRect() {
+        context.clearRect(0, 0, canvas.height, canvas.width);
     }
 }

@@ -1,7 +1,7 @@
 "use strict"
 
-import { canvas, Core, halfCanvasHeight, halfCanvasWidth, scale } from './core'
-const { drawRect, drawImage, drawText, drawCircle , loadImg} = Core;
+import { canvas, Core, halfCanvasHeight, halfCanvasWidth, scale, homePageAssetsPath } from './core'
+const { drawRect, drawImage, drawText, drawCircle , loadImg, clearRect } = Core;
 import $ from  'jquery';
 
 /**
@@ -35,58 +35,7 @@ export default class Boot {
     }
 
     constructor() {
-        console.log(window.btoa('http://localhost:3000/'));
-        var arr = [];
-        var n = 0;//帧数
-        for(var i=0;i<75;i++){
-            var pathOne = 'static/assets/page/'+i+'.png';
-            arr.push(pathOne); 
-        }
-        loadImg(arr,74);
-
-        function drawAni(){
-            drawImage(
-                0,
-                0,
-                arr[n],
-                canvas.width,
-                canvas.height
-            )
-            n++;
-        }
-
-        var ani = setInterval(function(){
-            if(n>74){
-                clearInterval(ani);
-                drawImage(
-                    0,
-                    0,
-                    'static/assets/bg.png',
-                    canvas.width,
-                    canvas.height
-                )
         
-                //绘制首页头顶
-                drawImage(
-                    0,
-                    0,
-                    'static/assets/p1-t1.png',
-                    canvas.width,
-                    canvas.width / 1.953
-                )
-                $(".beeBox").fadeIn(1000);
-            }else{
-                drawAni();
-            }
-            console.log(n)
-        },1000/20)
-
-        var arr2 = [];
-            for(var i=1;i<210;i++){
-                var pathOne = 'static/assets/course/'+i+'.png';
-                arr2.push(pathOne); 
-            }
-            loadImg(arr2,208);
 
 
         // this.voodooLogo = {
@@ -111,9 +60,9 @@ export default class Boot {
         drawText(0, -200, 1, 'black', 'Montserrat-Regular', 'a')
 
 
-        if(localStorage.key('bestScore') !== null) {
-            this.bestScore = localStorage.getItem('bestScore')
-        }
+        // if(localStorage.key('bestScore') !== null) {
+        //     this.bestScore = localStorage.getItem('bestScore')
+        // }
 
         this.draw()
         return Promise.resolve()
@@ -167,7 +116,10 @@ export default class Boot {
         // if(this.blackBlock.x < -(canvas.width/2) - (canvas.width/4)) {
         //     this.drawStartScreen()
         // }
+        this.drawStartScreen();
+        
     }
+
 
     drawStartScreen() {
         
@@ -235,5 +187,57 @@ export default class Boot {
         //         this.bestScore
         //     )
         // }
+        var n = 0;//帧数
+
+        function drawAni(){
+            drawImage(
+                0,
+                0,
+                homePageAssetsPath[n],
+                canvas.width,
+                canvas.height
+            )
+            n++;
+        }
+
+        var ani = setInterval(function(){
+            if(n>74){
+                clearInterval(ani);
+                drawImage(
+                    0,
+                    0,
+                    'static/assets/bg.png',
+                    canvas.width,
+                    canvas.height
+                )
+        
+                //绘制首页头顶
+                drawImage(
+                    0,
+                    0,
+                    'static/assets/p1-t1.png',
+                    canvas.width,
+                    canvas.width / 1.953
+                )
+                $(".beeBox").fadeIn(1000);
+            }else{
+                drawAni();
+            }
+            
+        },1000/20)
+    }
+
+    drawLoadingProcess(percentage){
+        //绘制首页头顶
+        clearRect();
+
+        drawText(
+            halfCanvasWidth - (50*scale), 
+            halfCanvasHeight - (50*scale), 
+            this.LIGHT_FONT_SIZE * scale, 
+            'white', 
+            'Montserrat-Thin', 
+            percentage + "%"
+        );
     }
 }
