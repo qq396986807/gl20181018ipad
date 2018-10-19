@@ -17,6 +17,7 @@ const assetsPath = [
 ]
 
 export let homePageAssetsPath = [];
+export let tutorialPageAssetsPath = [];
 
 
 const cacheImage = []
@@ -24,6 +25,7 @@ const cacheImage = []
 const BLOCK_RADIUS = 20
 
 let loader = null;
+let loader2 = null;
 
 export class Core {
 
@@ -40,6 +42,10 @@ export class Core {
         halfCanvasWidth = (window.innerWidth * scale) / 2;
 
         loader = Preloader({
+          xhrImages: false
+        });
+
+        loader2 = Preloader({
           xhrImages: false
         });
     }
@@ -68,13 +74,24 @@ export class Core {
             var img = assetsRoot + '/page/'+i+'.png';
             homePageAssetsPath.push(img);
         }
+
+        // tutorial
+            for(var i=1;i<210;i++){
+            var img = assetsRoot + '/course/'+i+'.png';
+            tutorialPageAssetsPath.push(img);
+        }
+        
     }
 
-    static async preloadNew(progressCallback, completeCallback) {
+    static async preloadHomageAssets(progressCallback, completeCallback) {
+
 
         loader.on('progress', progressCallback);
 
-        loader.on('complete', completeCallback);
+        loader.on('complete', function(){
+            //loader.reset();
+            completeCallback();
+        });
 
         for (var i = homePageAssetsPath.length - 1; i >= 0; i--) {
             loader.add(homePageAssetsPath[i]);
@@ -82,6 +99,24 @@ export class Core {
         
         loader.load();
     }
+
+
+
+    static async preloadTutorialAssets(progressCallback, completeCallback) {
+
+        
+
+        loader2.on('progress', progressCallback);
+
+        loader2.on('complete', completeCallback);
+
+        for (var i = tutorialPageAssetsPath.length - 1; i >= 0; i--) {
+            loader2.add(tutorialPageAssetsPath[i]);
+        }
+        
+        loader2.load();
+    }
+
 
     /**
      * 

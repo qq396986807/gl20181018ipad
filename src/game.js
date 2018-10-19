@@ -4,7 +4,7 @@ import Boot from './boot'
 import Start from './start'
 import Play from './play'
 
-const { preload,loadAssets,preloadNew } = Core
+const { preload,loadAssets,preloadHomageAssets, preloadTutorialAssets } = Core
 
 export let bestScore = 0;
 export let score = 0;
@@ -50,20 +50,35 @@ export default class Game extends Core {
         await sleep(boot.HIDE_ANIMATION_DURATION)
         // Show the start menu
         this.start.show(this.play.run.bind(this.play))
+
+        setTimeout(this.loadHomePageAssetsFinished, 3000);
     }
 
     async loadHomePageAssets()
     {
         loadAssets();
-        preloadNew(function(progress){
+        preloadHomageAssets(function(progress){
             console.log("=============preload" + progress);
             boot.drawLoadingProcess(parseInt(progress*100));
+
+            if(progress > 0.98)
+            {
+                //preloadTutorialAssets(function(progress){},function(){});
+            }
         }, function(){
             console.log('============all content loaded!');
 
             boot.display();
+
         })
     }
+
+    async loadHomePageAssetsFinished()
+    {
+        preloadTutorialAssets(function(progress){},function(){});
+    }
+
+
 }
 
 /**

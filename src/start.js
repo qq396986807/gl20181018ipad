@@ -1,6 +1,6 @@
 "use strict"
 
-import { canvas, Core, halfCanvasHeight, halfCanvasWidth, scale } from './core'
+import { canvas, Core, halfCanvasHeight, halfCanvasWidth, scale, tutorialPageAssetsPath } from './core'
 const { drawRect, drawImage, drawText, drawCircle , loadImg } = Core;
 import $ from  'jquery';
 
@@ -167,16 +167,13 @@ export default class Start {
         $(".palyAgainBox").hide();
         if(this.FirstFlag){
             var n = 0;//帧数
-            var arr = [];
-            for(var i=1;i<210;i++){
-                var pathOne = 'static/assets/course/'+i+'.png';
-                arr.push(pathOne); 
-            }
+            
+            
             function drawAni(){
                 drawImage(
                     0,
                     0,
-                    arr[n],
+                    tutorialPageAssetsPath[n],
                     canvas.width,
                     canvas.height
                 )
