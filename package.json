@@ -15,6 +15,7 @@
     "jquery": "^3.3.1",
     "next": "^5.1.0",
     "node-rsa": "^1.0.1",
+    "preloader": "^4.0.2",
     "randomcolor": "^0.5.3",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
