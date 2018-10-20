@@ -1,5 +1,5 @@
 "use strict"
-import { canvas, Core, halfCanvasHeight, halfCanvasWidth, scale } from './core'
+import { canvas, Core, halfCanvasHeight, halfCanvasWidth, scale ,beeDiePageAssetsPath} from './core'
 const { drawRect, drawImage, drawText, drawCircle, drawLine, sleep, drawBlock,drawImage2 } = Core;
 import $ from  'jquery';
 
@@ -40,6 +40,8 @@ export default class Play {
 	hitBlock = null
 	restartOpacity = 0
 	reverseOpacity = false
+	dieBeeFlag = false;
+	dieBeeFlag2 = true;
 
 	availableCircle = {
 		x: 0,
@@ -48,7 +50,7 @@ export default class Play {
 	}
 
 	draw() {
-
+		// console.log(111);
 		//drawRect(0, 0, canvas.width, canvas.height, 'black')
 		//绘制背景
 		drawImage(
@@ -112,96 +114,98 @@ export default class Play {
 		}
 
 		if (this.end === true) {
-			drawImage(
-				0,
-				0,
-				'static/assets/bg.png',
-				canvas.width,
-				canvas.height
-			)
-
-			//绘制头部
-			drawImage(
-				0,
-				0,
-				'static/assets/p2-t1.png',
-				canvas.width,
-				canvas.width / 3.5714
-			)
-
-			//绘制分数
-			drawText(
-				halfCanvasWidth -  (65 * scale),
-				halfCanvasHeight / 1.7,
-				20 * scale,
-				'white',
-				'Montserrat-Regular',
-				'MY LEVEL ' + this.score * 10 
+			// if(this.dieBeeFlag === true){
+				drawImage(
+					0,
+					0,
+					'static/assets/bg.png',
+					canvas.width,
+					canvas.height
 				)
-				sessionStorage.setItem('liveScore',this.score * 10);
-				$(".palyAgainBox").fadeIn(500);
-
+	
+				//绘制头部
+				drawImage(
+					0,
+					0,
+					'static/assets/p2-t1.png',
+					canvas.width,
+					canvas.width / 3.5714
+				)
+	
+				//绘制分数
+				drawText(
+					halfCanvasWidth -  (65 * scale),
+					halfCanvasHeight / 1.7,
+					20 * scale,
+					'white',
+					'Montserrat-Regular',
+					'MY LEVEL ' + this.score * 10 
+					)
+					sessionStorage.setItem('liveScore',this.score * 10);
+					$(".palyAgainBox").fadeIn(500);
+			// }
 		} else {
-
-			// Current player available points
-			drawText(
-				this.availableCircle.x + 45,
-				this.availableCircle.y + 30,
-				20 * scale,
-				'#ffd29a',
-				'Montserrat-Regular',
-				this.availableCircle.value
-			)
-			//标记蜜蜂头
-			 let bee = 0;
-			 
-			// Current player available points line
-			for (const circle of this.circles) {
-				// drawCircle(
-				// 	circle.x,
-				// 	circle.y,
-				// 	this.CIRCLE_RADIUS * scale,
-				// 	`rgb(255, 204, 0)`
-				// )
-				if(bee == 0){
-					drawImage(
-						circle.x - 50,
-						circle.y - 50,
-						'static/assets/bee.png',
-						200,
-						200
-					)
-					bee++;
-				}else{
-					drawImage(
-						circle.x + 43,
-						circle.y + 70,
-						'static/assets/ball.png',
-						20,
-						20
-					)
-				}
+			// if(this.dieBeeFlag2){
+					// Current player available points
+				drawText(
+					this.availableCircle.x + 45,
+					this.availableCircle.y + 30,
+					20 * scale,
+					'#ffd29a',
+					'Montserrat-Regular',
+					this.availableCircle.value
+				)
+				//标记蜜蜂头
+				let bee = 0;
 				
+				// Current player available points line
+				for (const circle of this.circles) {
+					// drawCircle(
+					// 	circle.x,
+					// 	circle.y,
+					// 	this.CIRCLE_RADIUS * scale,
+					// 	`rgb(255, 204, 0)`
+					// )
+					if(bee == 0){
+						drawImage(
+							circle.x - 50,
+							circle.y - 50,
+							'static/assets/bee.png',
+							200,
+							200
+						)
+						bee++;
+					}else{
+						drawImage(
+							circle.x + 43,
+							circle.y + 70,
+							'static/assets/ball.png',
+							20,
+							20
+						)
+					}
+					
+				}
+
+				//创建分数的背景
+				drawImage(
+					0,
+					0,
+					'static/assets/score.png',
+					canvas.width,
+					canvas.width / 4.286
+				)
+
+				drawText(
+					halfCanvasWidth - (45 * scale),
+					23 * scale,
+					20 * scale,
+					'white',
+					'Montserrat-Regular',
+					'分数: '+this.score * 10
+				)
 			}
-
-			//创建分数的背景
-			drawImage(
-				0,
-				0,
-				'static/assets/score.png',
-				canvas.width,
-				canvas.width / 4.286
-			)
-
-			drawText(
-				halfCanvasWidth - (45 * scale),
-				23 * scale,
-				20 * scale,
-				'white',
-				'Montserrat-Regular',
-				'分数: '+this.score * 10
-			)
-		}
+		// }
 	
 	
 	}
@@ -416,6 +420,35 @@ export default class Play {
 			if(this.availableCircle.value === 0 && !this.end) {
 				this.end = true
 				window.cancelAnimationFrame(this.play_animation)
+
+				//绘制蜜蜂死亡
+				// this.dieBeeFlag2 = false;
+				// var n = 0;//帧数
+				// function drawAni(){
+				// 	drawImage(
+				// 		0,
+				// 		0,
+				// 		'static/assets/bg.png',
+				// 		canvas.width,
+				// 		canvas.height
+				// 	)
+				// 	n++;
+				// }
+
+				// var ani = setInterval(function(){
+				// 	if(n>23){
+				// 		this.dieBeeFlag = true;
+				// 		clearInterval(ani);
+				// 	}else{
+				// 		drawAni();
+				// 		console.log(n);
+				// 		console.log(beeDiePageAssetsPath[n]);
+				// 	}
+					
+				// }.bind(this),1000/20)
+
+				
+				//结束
 				canvas.removeEventListener("touchmove", this.onTouch);
 				//scanvas.addEventListener("touchstart", this.onTouch);
 
@@ -692,6 +725,8 @@ export default class Play {
 		this.lastCoordinateX = 0
 		//分数重置
 		this.score = 0;
+		this.dieBeeFlag = false;
+		this.dieBeeFlag2 = true;
 
 		const defaultX = halfCanvasWidth
 		const defaultY = halfCanvasHeight + (canvas.height / 6)

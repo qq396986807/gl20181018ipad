@@ -272,7 +272,7 @@ export default class extends Component {
                             position: absolute;
                             left: 10%;
                             top: 32%;
-                            border: 1px solid white;
+                            // border: 1px solid white;
                             display:none;
                         }
                         .frendScore{
@@ -294,12 +294,12 @@ export default class extends Component {
                         .playAgainBg div{
                             margin-left: 15%;
                             width: 70%;
-                            border: 1px solid white;
+                            // border: 1px solid white;
                         }
                         .beeBox div{
                             margin-left: 10%;
                             width: 80%;
-                            border: 1px solid white;
+                            // border: 1px solid white;
                         }
                         .play{
                             margin-top: 81%;
