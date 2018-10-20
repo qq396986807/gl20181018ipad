@@ -1,9 +1,8 @@
-A HTML5 canvas game based on Snake VS Block mobile game. [Try (on mobile only)](https://snake-vs-block.now.sh)
+gl
 =====================
 
 # Setup
 ```bash
-git clone https://github.com/XavierLeTohic/snake-vs-block
 npm install
 ```
 

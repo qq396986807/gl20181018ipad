@@ -259,7 +259,7 @@ export default class Play {
 				20 * scale,
 				'white',
 				'Montserrat-Regular',
-				'score: '+this.score * 10
+				'分数: '+this.score * 10
 			)
 		}
 	
