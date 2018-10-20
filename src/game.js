@@ -4,7 +4,7 @@ import Boot from './boot'
 import Start from './start'
 import Play from './play'
 
-const { preload,loadAssets,preloadHomageAssets, preloadTutorialAssets } = Core
+const { preload,loadAssets,preloadHomageAssets, preloadTutorialAssets, preloadBeeDieAssets } = Core
 
 export let bestScore = 0;
 export let score = 0;
@@ -52,13 +52,14 @@ export default class Game extends Core {
         this.start.show(this.play.run.bind(this.play))
 
         setTimeout(this.loadHomePageAssetsFinished, 3000);
+        setTimeout(this.loadBeeDieAssetsFinished, 6000);
     }
 
     async loadHomePageAssets()
     {
         loadAssets();
         preloadHomageAssets(function(progress){
-            console.log("=============preload" + progress);
+            //console.log("=============preload" + progress);
             boot.drawLoadingProcess(parseInt(progress*100));
 
             if(progress > 0.98)
@@ -66,7 +67,7 @@ export default class Game extends Core {
                 //preloadTutorialAssets(function(progress){},function(){});
             }
         }, function(){
-            console.log('============all content loaded!');
+            //console.log('============all content loaded!');
 
             boot.display();
 
@@ -78,6 +79,11 @@ export default class Game extends Core {
         preloadTutorialAssets(function(progress){},function(){});
     }
 
+
+    async loadBeeDieAssetsFinished()
+    {
+        preloadBeeDieAssets(function(progress){},function(){});
+    }
 
 }
 
