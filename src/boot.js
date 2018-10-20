@@ -234,10 +234,10 @@ export default class Boot {
         drawText(
             halfCanvasWidth - (50*scale), 
             halfCanvasHeight - (50*scale), 
-            this.LIGHT_FONT_SIZE * scale, 
+            16 * scale,
             'white', 
             'Montserrat-Thin', 
-            percentage + "%"
+            "Loading " + percentage + "%"
         );
     }
 }
