@@ -126,7 +126,7 @@ export default class Play {
 				0,
 				'static/assets/p2-t1.png',
 				canvas.width,
-				canvas.width / 2.568
+				canvas.width / 3.5714
 			)
 
 			//绘制分数
@@ -140,66 +140,6 @@ export default class Play {
 				)
 				sessionStorage.setItem('liveScore',this.score * 10);
 				$(".palyAgainBox").fadeIn(500);
-			
-			// Game score white block
-			// drawBlock(
-			// 	halfCanvasWidth / 2,
-			// 	halfCanvasHeight / 4,
-			// 	halfCanvasWidth,
-			// 	'white'
-			// )
-
-			// Score
-			// drawText(
-			// 	halfCanvasWidth - (this.score > 9 ? (25 * scale) : (15 * scale)),
-			// 	halfCanvasHeight / 2,
-			// 	45 * scale,
-			// 	'black',
-			// 	'Montserrat-Regular',
-			// 	this.score
-			// )
-
-			// if(this.newBestScore) {
-			// 	// New best score label
-			// 	drawText(
-			// 		halfCanvasWidth - (halfCanvasWidth / 3),
-			// 		(halfCanvasHeight / 2) + (halfCanvasHeight / 8),
-			// 		14 * scale,
-			// 		'black',
-			// 		'Montserrat-Thin',
-			// 		`New best score !`
-			// 	)
-			// } else {
-			// 	// Best score label
-			// 	drawText(
-			// 		halfCanvasWidth - (halfCanvasWidth / 6),
-			// 		(halfCanvasHeight / 2) + (halfCanvasHeight / 8),
-			// 		14 * scale,
-			// 		'black',
-			// 		'Montserrat-Thin',
-			// 		`Best score :`
-			// 	)
-
-			// 	// Best score value
-			// 	drawText(
-			// 		halfCanvasWidth - (this.bestScore > 9 ? (10 * scale) : (5 * scale)),
-			// 		(halfCanvasHeight / 2) + (halfCanvasHeight / 4.5),
-			// 		22 * scale,
-			// 		'black',
-			// 		'Montserrat-Regular',
-			// 		this.bestScore
-			// 	)
-			// }
-
-			// Continue label
-			// drawText(
-			// 	halfCanvasWidth - (75 * scale), 
-			// 	halfCanvasHeight + (canvas.height/3), 
-			// 	22 * scale, 
-			// 	`rgba(255, 255, 255, ${this.restartOpacity.toFixed(2)})`, 
-			// 	'Montserrat-Thin', 
-			// 	'Tap to continue'
-			// );
 
 		} else {
 

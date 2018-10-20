@@ -51,12 +51,12 @@ export default class extends Component {
             //判断是否有带好友openid参数
             var Fopenid = getQueryString('Fopenid')
             if(Fopenid){
-                var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://localhost:3000/?Fopenid="+Fopenid);
-                //var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://guerlain.wcampaign.cn?Fopenid="+Fopenid);
+                //var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://localhost:3000/?Fopenid="+Fopenid);
+                var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://guerlain.wcampaign.cn?Fopenid="+Fopenid);
                 window.location.href = oAtuhUrl;
             }else {
-                var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://localhost:3000/")
-                //var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://guerlain.wcampaign.cn")
+                //var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://localhost:3000/")
+                var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://guerlain.wcampaign.cn")
                 window.location.href = oAtuhUrl;
             }
         }
@@ -97,7 +97,7 @@ export default class extends Component {
 
 
         //点击排行榜
-        $(".rank,.rank2").click(function(){
+        $(".rank,.rule2").click(function(){
             $(".mask").fadeIn(500);
             $(".rankBox").fadeIn(500);
             $.ajax({
@@ -115,11 +115,26 @@ export default class extends Component {
                     }
                     
                     for(var i=0;i<data.length;i++){
-                        var oDov = $("<p><span className='listName'>"+data[i].nickname+":</span><span className='listScore'>"+data[i].score+"</span></p>")
+                        var oDov = $("<p><span class='listName'>"+data[i].nickname+":</span><span class='listScore'>"+data[i].score+"</span></p>")
                         $(".rankList").append(oDov);
                     }
                 }
             })
+        })
+
+        //点击分享，弹出浮层
+        $(".rank2").click(function(){
+            $(".share").fadeIn(500);
+        });
+
+        //点击规则
+        $(".rule").click(function(){
+            $(".ruleShow").fadeIn(500);
+        })
+
+        //点击shanre消失
+        $(".share,.ruleShow").click(function(){
+            $(this).fadeOut(500);
         })
 
         //一开始展现好友分数
@@ -134,7 +149,7 @@ export default class extends Component {
                     console.log(data);
                     $(".frendScore").html("");
                     for(var i=0;i<data.length;i++){
-                        var oDov = $("<p><span className='listName'>"+data[i].nickname+":</span><span className='listScore'>"+data[i].score+"</span></p>")
+                        var oDov = $("<p><span class='listName'>"+data[i].nickname+":</span><span class='listScore'>"+data[i].score+"</span></p>")
                         $(".frendScore").append(oDov);
                     }
                 }
@@ -185,9 +200,11 @@ export default class extends Component {
                     height="450"
                     width="600"
                 />
+                <img className='share' src='/static/assets/share.png' alt='' />
+                <img className='ruleShow' src='/static/assets/rule.png' alt='' />
                 <div className='mask'></div>
                 <div className='rankBox'>
-                    <img className='off' src='/static/assets/off.png' alt='' />
+                    <img className='off' src='/static/assets/off.png'  />
                     <p className='rankTitle'>排行榜</p>
                     <p className='rankExplain'>排行榜说明排行榜说明排行榜说明排行榜说明排行榜说明排行榜说明</p>
                     <p className='myScore'>我的得分：10000</p>
@@ -229,6 +246,15 @@ export default class extends Component {
                             width: 13%;
                             margin-top: -18%;
                         }
+                        .share,.ruleShow{
+                            width: 100%;
+                            height: auto;
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            z-index: 1000;
+                            display:none;
+                        }
                         .beeBox{
                             position: absolute;
                             width: 80%;
@@ -246,7 +272,7 @@ export default class extends Component {
                             position: absolute;
                             left: 10%;
                             top: 32%;
-                            //border: 1px solid white;
+                            border: 1px solid white;
                             display:none;
                         }
                         .frendScore{
@@ -268,12 +294,12 @@ export default class extends Component {
                         .playAgainBg div{
                             margin-left: 15%;
                             width: 70%;
-                            //border: 1px solid white;
+                            border: 1px solid white;
                         }
                         .beeBox div{
                             margin-left: 10%;
                             width: 80%;
-                            //border: 1px solid white;
+                            border: 1px solid white;
                         }
                         .play{
                             margin-top: 81%;

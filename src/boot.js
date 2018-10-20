@@ -122,71 +122,6 @@ export default class Boot {
 
 
     drawStartScreen() {
-        
-        // drawText(
-        //     halfCanvasWidth - (50*scale), 
-        //     halfCanvasHeight - (55*scale) - (canvas.height/4), 
-        //     this.LIGHT_FONT_SIZE * scale, 
-        //     'white', 
-        //     'Montserrat-Thin', 
-        //     'Snake'
-        // )
-        // drawText(halfCanvasWidth - (35*scale), 
-        //     halfCanvasHeight - (canvas.height/4), 
-        //     this.BOLD_FONT_SIZE * scale, 
-        //     'white', 
-        //     'Montserrat-Regular', 
-        //     'VS'
-        // )
-        // drawText(halfCanvasWidth - (45*scale), 
-        //     halfCanvasHeight + (45 * scale) - (canvas.height/4), 
-        //     this.LIGHT_FONT_SIZE * scale, 
-        //     'white', 
-        //     'Montserrat-Thin', 
-        //     'Block'
-        // )
-
-        // drawText(
-        //     halfCanvasWidth - (4*scale), 
-        //     (halfCanvasHeight + canvas.height/6) - (20*scale),
-        //      14 * scale, 
-        //      'white', 
-        //      'Montserrat-Regular', 
-        //      '4')
-
-        // // drawCircle(
-        // //     halfCanvasWidth, 
-        // //     halfCanvasHeight + canvas.height/6, 
-        // //     this.CIRCLE_RADIUS * scale, 
-        // //     `rgb(255, 204, 0)`
-        // // );
-        // drawImage(
-        //     halfCanvasWidth,
-        //     halfCanvasHeight + canvas.height/6,
-        //     'static/assets/bee.png',
-        //     50,
-        //     50
-        // )
-
-        // if(this.bestScore > 0) {
-        //     drawText(
-        //         halfCanvasWidth - (40 * scale), 
-        //         halfCanvasHeight - (halfCanvasHeight / 7), 
-        //         16 * scale, 
-        //         'white', 
-        //         'Montserrat-Thin', 
-        //         'Best score :'
-        //     )
-
-        //     drawText(
-        //         halfCanvasWidth - ((this.bestScore > 9 ? 20 : 10) * scale), 
-        //         halfCanvasHeight + (10 * scale), 
-        //         this.LIGHT_FONT_SIZE * scale, 
-        //         'white', 
-        //         'Montserrat-Regular', 
-        //         this.bestScore
-        //     )
-        // }
         var n = 0;//帧数
 
         function drawAni(){
@@ -210,8 +145,9 @@ export default class Boot {
                     canvas.width,
                     canvas.height
                 )
-        
-                //绘制首页头顶
+                
+                $(".beeBox").fadeIn(1000,function(){
+                    //绘制首页头顶
                 drawImage(
                     0,
                     0,
@@ -219,7 +155,7 @@ export default class Boot {
                     canvas.width,
                     canvas.width / 1.953
                 )
-                $(".beeBox").fadeIn(1000);
+                });
             }else{
                 drawAni();
             }
