@@ -3,7 +3,6 @@ import { Component } from 'react'
 import Head from 'next/head'
 import Game from '../src/game'
 import $ from  'jquery'
-import NodeRSA from  'node-rsa'
 
 export default class extends Component {
 
@@ -27,14 +26,124 @@ export default class extends Component {
             
             const game = new Game(this.canvas)
         }
+
+//授权事宜-----------------
+        //获取URL参数
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if ( r != null ){
+                return decodeURI(r[2]);
+            }else{
+                return null;
+            }
+        }
+
+
+        var userData;
+        var dataInfo={};
+        function ouathinit() {
+        //首先判断用户数据cookie是否存在
+        var userInf = localStorage.getItem('data');
+        if(userInf!=null && userInf!=""){
+            userData = userInf;
+        }else {
+            //判断是否有带好友openid参数
+            var Fopenid = getQueryString('Fopenid')
+            if(Fopenid){
+                var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://localhost:3000/?Fopenid="+Fopenid);
+                //var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://guerlain.wcampaign.cn?Fopenid="+Fopenid);
+                window.location.href = oAtuhUrl;
+            }else {
+                var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://localhost:3000/")
+                //var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://guerlain.wcampaign.cn")
+                window.location.href = oAtuhUrl;
+            }
+        }
+
+        if(getQueryString('data')){
+            var user = atob(getQueryString('data'));
+            localStorage.setItem('data',user); // cookie过期时间为30天。
+            userData = user;
+            userData = JSON.parse(userData);
+            $.ajax({
+                url:'https://guerlain.wechat.wcampaign.cn/user/add',
+                type:'POST',
+                data:{
+                    from_openid:getQueryString('Fopenid'),
+                    openid:userData.original.openid,
+                    nickname:userData.original.nickname,
+                    headimgurl:userData.original.headimgurl
+                },
+                success:function (data) {
+                    console.log(data);
+                }
+            })
+        }else{
+            if(userInf){
+                userData = JSON.parse(userData);
+            }
+        }
+
+    }
+        ouathinit();
+        console.log(userData);
+        
+
+
+
+
+    //结束-----------------
+
+
         //点击排行榜
         $(".rank,.rank2").click(function(){
             $(".mask").fadeIn(500);
             $(".rankBox").fadeIn(500);
+            $.ajax({
+                url:'https://guerlain.wechat.wcampaign.cn/user/getlist',
+                type:'POST',
+                dataType: "json",
+                success:function (data) {
+                    console.log(data);
+                    $(".rankList").html("");
+                    var liveScore = sessionStorage.getItem('liveScore');
+                    if(liveScore){
+                        $(".myScore").html('我的当前分数：' + liveScore);
+                    }else{
+                        $(".myScore").html('我的当前分数：0');
+                    }
+                    
+                    for(var i=0;i<data.length;i++){
+                        var oDov = $("<p><span className='listName'>"+data[i].nickname+":</span><span className='listScore'>"+data[i].score+"</span></p>")
+                        $(".rankList").append(oDov);
+                    }
+                }
+            })
         })
 
+        //一开始展现好友分数
+        var userInfI = localStorage.getItem('data');
+        if(userInfI){
+            $.ajax({
+                url:'https://guerlain.wechat.wcampaign.cn/user/getfriendlist',
+                type:'POST',
+                data:{openid:userData.original.openid},
+                dataType: "json",
+                success:function (data) {
+                    console.log(data);
+                    $(".frendScore").html("");
+                    for(var i=0;i<data.length;i++){
+                        var oDov = $("<p><span className='listName'>"+data[i].nickname+":</span><span className='listScore'>"+data[i].score+"</span></p>")
+                        $(".frendScore").append(oDov);
+                    }
+                }
+            })
+        }
+        
+
         //点击遮罩消失
-        $(".mask").click(function(){
+        $(".mask,.off").click(function(){
             $(".mask").fadeOut(500);
             $(".rankBox").fadeOut(500);
         })
@@ -83,16 +192,7 @@ export default class extends Component {
                     <p className='rankExplain'>排行榜说明排行榜说明排行榜说明排行榜说明排行榜说明排行榜说明</p>
                     <p className='myScore'>我的得分：10000</p>
                     <div className='rankList'>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
+                        
                     </div>
                 </div>
                 <div className='beeBox'>
@@ -102,12 +202,7 @@ export default class extends Component {
                 </div>
                 <div className='palyAgainBox'>
                     <div className='frendScore'>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
-                        <p>name:10000</p>
+                        
                     </div>
                     <div className='playAgainBg'>
                         <div className='playAgain'></div>
@@ -151,7 +246,7 @@ export default class extends Component {
                             position: absolute;
                             left: 10%;
                             top: 32%;
-                            border: 1px solid white;
+                            //border: 1px solid white;
                             display:none;
                         }
                         .frendScore{
@@ -173,12 +268,12 @@ export default class extends Component {
                         .playAgainBg div{
                             margin-left: 15%;
                             width: 70%;
-                            border: 1px solid white;
+                            //border: 1px solid white;
                         }
                         .beeBox div{
                             margin-left: 10%;
                             width: 80%;
-                            border: 1px solid white;
+                            //border: 1px solid white;
                         }
                         .play{
                             margin-top: 81%;
@@ -228,6 +323,16 @@ export default class extends Component {
                             text-align: center;
                             font-size: 16px;
                             padding: 5px 0;
+                        }
+                        .listName{
+                            display: inline-block;
+                            width: 50%;
+                            text-align: right;
+                        }
+                        .listScore{
+                            display: inline-block;
+                            width: 50%;
+                            text-align: left;
                         }
                         .myScore{
                             color:#edb97b;

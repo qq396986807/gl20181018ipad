@@ -71,13 +71,15 @@ export class Core {
 
         // home page assets
         for(var i=0;i<75;i++){
-            var img = assetsRoot + '/page/'+i+'.png';
+            //var img = assetsRoot + '/page/'+i+'.png';
+            var img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/page/'+i+'.png';
             homePageAssetsPath.push(img);
         }
 
         // tutorial
             for(var i=1;i<210;i++){
-            var img = assetsRoot + '/course/'+i+'.png';
+            //var img = assetsRoot + '/course/'+i+'.png';
+            var img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/course/'+i+'.png';
             tutorialPageAssetsPath.push(img);
         }
         

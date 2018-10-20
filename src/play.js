@@ -105,14 +105,13 @@ export default class Play {
 				point.x + 32 * scale,
 				point.y + 46 * scale,
 				20 * scale,
-				'black',
+				'white',
 				'Montserrat-Regular',
 				point.value
 			)
 		}
 
 		if (this.end === true) {
-
 			drawImage(
 				0,
 				0,
@@ -139,8 +138,9 @@ export default class Play {
 				'Montserrat-Regular',
 				'MY LEVEL ' + this.score * 10 
 				)
-
+				sessionStorage.setItem('liveScore',this.score * 10);
 				$(".palyAgainBox").fadeIn(500);
+			
 			// Game score white block
 			// drawBlock(
 			// 	halfCanvasWidth / 2,
@@ -479,10 +479,22 @@ export default class Play {
 				canvas.removeEventListener("touchmove", this.onTouch);
 				//scanvas.addEventListener("touchstart", this.onTouch);
 
-				if(this.bestScore === 0 || this.score > this.bestScore) {
+				if(this.bestScore === 0 || this.score * 10 > this.bestScore) {
 					this.newBestScore = true
 					this.bestScore = this.score
-					localStorage.setItem('bestScore', this.score)
+					var userData = localStorage.getItem('data');
+					userData = JSON.parse(userData);
+					$.ajax({
+						url:'https://guerlain.wechat.wcampaign.cn/user/update',
+						type:'POST',
+						data:{openid:userData.original.openid,currentscore:this.score * 10},
+						success:function (data) {
+							if(data == 1){
+								alert('您刷新了记录！')
+							}	
+						}
+					})
+					localStorage.setItem('bestScore', this.score * 10)
 				}
 
 				window.requestAnimationFrame(this.restartLabelAnimation)
@@ -529,8 +541,8 @@ export default class Play {
 			if (point.y < (halfCanvasHeight * 2)) {
 
 				// Collision with points点碰撞的事件
-				if (point.y > (this.availableCircle.y - 10) && point.y < this.availableCircle.y + 40
-					&& point.x > (this.availableCircle.x - 30) && point.x < this.availableCircle.x + 10
+				if (point.y > (this.availableCircle.y - 40) && point.y < this.availableCircle.y + 40
+					&& point.x > (this.availableCircle.x - 120) && point.x < this.availableCircle.x + 80
 				) {
 
 					// Adding points as circles on the screen
