@@ -18,6 +18,7 @@ const assetsPath = [
 
 export let homePageAssetsPath = [];
 export let tutorialPageAssetsPath = [];
+export let beeDiePageAssetsPath = [];
 
 
 const cacheImage = []
@@ -26,6 +27,7 @@ const BLOCK_RADIUS = 20
 
 let loader = null;
 let loader2 = null;
+let loader3 = null;
 
 export class Core {
 
@@ -46,6 +48,10 @@ export class Core {
         });
 
         loader2 = Preloader({
+          xhrImages: false
+        });
+
+        loader3 = Preloader({
           xhrImages: false
         });
     }
@@ -71,18 +77,29 @@ export class Core {
 
         // home page assets
         for(var i=0;i<75;i++){
-            //var img = assetsRoot + '/page/'+i+'.png';
-            var img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/page/'+i+'.png';
+            var img = assetsRoot + '/page/'+i+'.png';
+            //var img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/page/'+i+'.png';
             homePageAssetsPath.push(img);
         }
 
         // tutorial
-            for(var i=1;i<210;i++){
-            //var img = assetsRoot + '/course/'+i+'.png';
-            var img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/course/'+i+'.png';
+        for(var i=1;i<210;i++){
+            var img = assetsRoot + '/course/'+i+'.png';
+            //var img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/course/'+i+'.png';
             tutorialPageAssetsPath.push(img);
         }
         
+        for(var i=0;i<25;i++){
+            var img = assetsRoot + '/animation/beedie/beeDie_iphone_0000'+i+'.png';
+            if(i > 9)
+                img = assetsRoot + '/animation/beedie/beeDie_iphone_000'+i+'.png';
+
+            //var img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/animation/beedie/beeDie_iphone_0000'+i+'.png';
+            //if(i > 9)
+            //    img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/animation/beedie/beeDie_iphone_000'+i+'.png';
+
+            beeDiePageAssetsPath.push(img);
+        }
     }
 
     static async preloadHomageAssets(progressCallback, completeCallback) {
@@ -119,6 +136,20 @@ export class Core {
         loader2.load();
     }
 
+    static async preloadBeeDieAssets(progressCallback, completeCallback) {
+
+        
+
+        loader3.on('progress', progressCallback);
+
+        loader3.on('complete', completeCallback);
+
+        for (var i = beeDiePageAssetsPath.length - 1; i >= 0; i--) {
+            loader3.add(beeDiePageAssetsPath[i]);
+        }
+        
+        loader3.load();
+    }
 
     /**
      * 
