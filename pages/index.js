@@ -143,7 +143,7 @@ export default class extends Component {
                         .beeBox div{
                             margin-left: 20%;
                             width: 60%;
-                            //border: 1px solid white;
+                            // border: 1px solid white;
                         }
                         .play{
                             margin-top: 81%;

@@ -87,13 +87,13 @@ export default class Play {
 
 			if(block.value > 0) {
 				// drawBlock(block.x, block.y, block.size, block.color)
-				drawImage(block.x,block.y,'static/assets/fk1.png', block.size, block.size)
+				drawImage(block.x,block.y,block.color[0], block.size, block.size)
 
 				drawText(
 					block.x + ((block.size / 2) - (block.value > 9 ? (10 * scale) : (6 * scale))),
 					block.y + (block.size / 2) + (7 * scale),
 					22 * scale,
-					'black',
+					block.color[1],
 					'Montserrat-Regular',
 					block.value
 				)
@@ -147,7 +147,7 @@ export default class Play {
 					0,
 					'static/assets/finishTitle.png',
 					canvas.width,
-					canvas.width / 4.697
+					canvas.width / 4.518
 				)
 			}else{
 				clearInterval(this.gameOver);
@@ -155,9 +155,9 @@ export default class Play {
 				drawImage(
 					0,
 					0,
-					'static/assets/p1-t1.png',
+					'static/assets/finishTitle-lose.png',
 					canvas.width,
-					canvas.width / 2.072
+					canvas.width / 4.518
 				)
 			}
 			$(".beeBox").fadeIn(500)
@@ -240,20 +240,34 @@ export default class Play {
 
 		const currentPoints = this.availableCircle.value;
 
-		if(blockValue === 1) {
-			return '#69F0AE'
-		} else if(blockValue <= 4) {
-			return '#00E676'
-		} else if(blockValue <= 8) {
-			return '#00C853'
-		} else if (blockValue <= 12) {
-			return '#FFD54F'
-		} else if(blockValue <= 16) {
-			return '#FFCA28'
-		} else if(blockValue <= 20) {
-			return '#FF8F00'
-		} else if(blockValue >= 21) {
-			return '#D84315'
+		// if(blockValue === 1) {
+		// 	return '#69F0AE'
+		// } else if(blockValue <= 4) {
+		// 	return '#00E676'
+		// } else if(blockValue <= 8) {
+		// 	return '#00C853'
+		// } else if (blockValue <= 12) {
+		// 	return '#FFD54F'
+		// } else if(blockValue <= 16) {
+		// 	return '#FFCA28'
+		// } else if(blockValue <= 20) {
+		// 	return '#FF8F00'
+		// } else if(blockValue >= 21) {
+		// 	return '#D84315'
+		// }
+
+		if(blockValue>9){
+			let arr = [
+			'static/assets/fk2.png',
+			'white'
+			]
+			return arr;
+		}else{
+			let arr = [
+				'static/assets/fk1.png',
+				'black'
+				]
+				return arr;
 		}
 	}
 
