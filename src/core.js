@@ -73,35 +73,66 @@ export class Core {
         return Promise.all(loadingAssets)
     }
 
-    static async loadAssets() {
+   static async loadAssets() {
 
-        // home page assets
-        for(var i=0;i<75;i++){
-            var img = assetsRoot + '/page/'+i+'.png';
-            // var img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/page/'+i+'.png';
+        for(var i=0;i<76;i++){
+
+            var fileName = i;
+            if(i< 10)
+            {
+                fileName = "0000" + i;
+            }
+            else if(i > 9 && i < 100)
+            {
+                fileName = "000" + i;                                   
+            }
+
+            //var img = assetsRoot + '/animation/welcomescreen-jpg/'+fileName+'.jpg';
+            var img = 'https://glcdn.wcampaign.cn/ipadassets/animation/welcomescreen-jpg/'+fileName+'.jpg';
+
             homePageAssetsPath.push(img);
         }
 
+
         // tutorial
         for(var i=1;i<210;i++){
-            var img = assetsRoot + '/course/'+i+'.png';
-            // var img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/course/'+i+'.png';
+
+            var fileName = i;
+            if(i< 10)
+            {
+                fileName = "0000" + i;
+            }
+            else if(i > 9 && i < 100)
+            {
+                fileName = "000" + i;                                   
+            }else if(i > 99 && i < 1000)
+            {
+                fileName = "00" + i;                                   
+            }
+
+            //var img = assetsRoot + '/animation/tutorial-jpg/'+fileName+'.jpg';
+            var img = 'https://glcdn.wcampaign.cn/ipadassets/animation/tutorial-jpg/'+fileName+'.jpg';
+
             tutorialPageAssetsPath.push(img);
         }
         
-        // for(var i=0;i<25;i++){
-        //     // var img = assetsRoot + '/animation/beedie/beeDie_iphone_0000'+i+'.png';
-        //     // if(i > 9)
-        //     //     img = assetsRoot + '/animation/beedie/beeDie_iphone_000'+i+'.png';
+        for(var i=0;i<27;i++){
+            var fileName = i;
+            if(i< 10)
+            {
+                fileName = "0000" + i;
+            }
+            else if(i > 9 && i < 100)
+            {
+                fileName = "000" + i;                                   
+            }
 
-        //     var img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/animation/beedie/beeDie_iphone_0000'+i+'.png';
-        //     if(i > 9)
-        //        img = 'https://gl20181019.oss-cn-hangzhou.aliyuncs.com/assets/animation/beedie/beeDie_iphone_000'+i+'.png';
-
-        //     beeDiePageAssetsPath.push(img);
-        // }
+            //var img = assetsRoot + '/animation/beedie/'+fileName+'.png';
+            var img = 'https://glcdn.wcampaign.cn/ipadassets/animation/beedie/'+fileName+'.png';
+   
+            beeDiePageAssetsPath.push(img);
+        }
     }
-
     static async preloadHomageAssets(progressCallback, completeCallback) {
 
 
