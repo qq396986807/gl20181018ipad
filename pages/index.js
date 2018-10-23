@@ -27,160 +27,24 @@ export default class extends Component {
             const game = new Game(this.canvas)
         }
 
-//授权事宜-----------------
-        //获取URL参数
-        function getQueryString(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-            var r = window.location.search.substr(1).match(reg);
-            if ( r != null ){
-                return decodeURI(r[2]);
-            }else{
-                return null;
-            }
-        }
 
-
-        var userData;
-        var dataInfo={};
-        function ouathinit() {
-        //首先判断用户数据cookie是否存在
-        var userInf = localStorage.getItem('data');
-        if(userInf!=null && userInf!=""){
-            userData = userInf;
-        }else {
-            //判断是否有带好友openid参数
-            var Fopenid = getQueryString('Fopenid')
-            if(Fopenid){
-                //var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://localhost:3000/?Fopenid="+Fopenid);
-                var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://guerlain.wcampaign.cn?Fopenid="+Fopenid);
-                window.location.href = oAtuhUrl;
-            }else {
-                //var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://localhost:3000/")
-                var oAtuhUrl = "https://guerlain.wechat.wcampaign.cn/oauth?redirecturl=" + btoa("http://guerlain.wcampaign.cn")
-                window.location.href = oAtuhUrl;
-            }
-        }
-
-        if(getQueryString('data')){
-            var user = atob(getQueryString('data'));
-            localStorage.setItem('data',user); // cookie过期时间为30天。
-            userData = user;
-            userData = JSON.parse(userData);
-            $.ajax({
-                url:'https://guerlain.wechat.wcampaign.cn/user/add',
-                type:'POST',
-                data:{
-                    from_openid:getQueryString('Fopenid'),
-                    openid:userData.original.openid,
-                    nickname:userData.original.nickname,
-                    headimgurl:userData.original.headimgurl
-                },
-                success:function (data) {
-                    console.log(data);
-                }
-            })
-        }else{
-            if(userInf){
-                userData = JSON.parse(userData);
-            }
-        }
-
-    }
-        ouathinit();
-        console.log(userData);
         
 
-
-
-
-    //结束-----------------
-
-
-        //点击排行榜
-        $(".rank,.rule2").click(function(){
-            $(".mask").fadeIn(500);
-            $(".rankBox").fadeIn(500);
-            $.ajax({
-                url:'https://guerlain.wechat.wcampaign.cn/user/getlist',
-                type:'POST',
-                dataType: "json",
-                success:function (data) {
-                    console.log(data);
-                    $(".rankList").html("");
-                    var liveScore = sessionStorage.getItem('liveScore');
-                    if(liveScore){
-                        $(".myScore").html('我的当前分数：' + liveScore);
-                    }else{
-                        $(".myScore").html('我的当前分数：0');
-                    }
-                    
-                    for(var i=0;i<data.length;i++){
-                        var oDov = $("<p><span class='listName'>"+data[i].nickname+":</span><span class='listScore'>"+data[i].score+"</span></p>")
-                        $(".rankList").append(oDov);
-                    }
-                }
-            })
-        })
-
-        //点击分享，弹出浮层
-        $(".rank2").click(function(){
-            $(".share").fadeIn(500);
-        });
+        
 
         //点击规则
         $(".rule").click(function(){
             $(".ruleShow").fadeIn(500);
         })
 
-        //点击shanre消失
-        $(".share,.ruleShow").click(function(){
-            $(this).fadeOut(500);
-        })
+    
 
-        //一开始展现好友分数
-        var userInfI = localStorage.getItem('data');
-        if(userInfI){
-            $.ajax({
-                url:'https://guerlain.wechat.wcampaign.cn/user/getfriendlist',
-                type:'POST',
-                data:{openid:userData.original.openid},
-                dataType: "json",
-                success:function (data) {
-                    console.log(data);
-                    $(".frendScore").html("");
-                    for(var i=0;i<data.length;i++){
-                        var oDov = $("<p><span class='listName'>"+data[i].nickname+":</span><span class='listScore'>"+data[i].score+"</span></p>")
-                        $(".frendScore").append(oDov);
-                    }
-                }
-            })
-        }
         
 
         //点击遮罩消失
-        $(".mask,.off").click(function(){
-            $(".mask").fadeOut(500);
-            $(".rankBox").fadeOut(500);
+        $(".ruleShow").click(function(){
+            $(this).fadeOut(500);
         })
-
-        // const publickey = '-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6KzAVhTxDl/6EUTtCbtRFOPKA4/WOD9WOSP+vxIa7+wjHnNXtWWf2JuzlTapHrx++J8K9zn75tGibXHsZb/DHvp4Pl50Ln2w1VhYuwg2MAUuf/Q2c8dIhM8srRmPGqEn621GTK0cNGweyLR1y88epLSt6MnbQAY89vGVd/LR5TwIDAQAB-----END PUBLIC KEY-----';
-
-        // const key = new NodeRSA({b: 512});
-        // key.importKey(publickey, 'pkcs8-public');
-
-        // //var pubKey = new NodeRSA(publickey,'pkcs8-public');//导入公钥
-        // var encrypted = key.encrypt('hithere', 'base64'); //使用公钥加密字符串
-        // console.log('========encrypted: ', encrypted);
- 
-        // const privatekey = '-----BEGIN RSA PRIVATE KEY-----MIICXQIBAAKBgQC6KzAVhTxDl/6EUTtCbtRFOPKA4/WOD9WOSP+vxIa7+wjHnNXtWWf2JuzlTapHrx++J8K9zn75tGibXHsZb/DHvp4Pl50Ln2w1VhYuwg2MAUuf/Q2c8dIhM8srRmPGqEn621GTK0cNGweyLR1y88epLSt6MnbQAY89vGVd/LR5TwIDAQABAoGAWD1WKi0flk45pc+2zdMoK7NFRhBGeFJK/4jcIBx/XCQtUielQj2pSAPFLx5zwkxgOEoyRLLWflajalgYRMNJFSSZA9tCPmIID32OYmVm+ChCt5sTxvrugzDvA8zVz/p97Kbz1/8BezTa4fWOfvrmPH0JrOkVcTJYpu5WlDVcf9ECQQDnVVlKccb/a8us71FIVCZo6gBnwBf9sVeEj2WVIQdrzIYVQfVMguTiDSL0GT6FonL84XTNM8kJOYpwG9mq9GCXAkEAzgT9Tm3aRMAG+33pCjED05za1OwwXf3xSeFNH4p9PMEsga/cew8RpZcfC+qLj/t/yiDhf5TpHytJzQ20g9oMCQJAMYNAAEIH8KVWy6XRROTV78Cd45bmy6LIc5PpjxipqPX2gNhEM2MUsBlVsN8yVZHmgJ+Uy1LZJYNOUR504TU68wJBAIUxUJreBpkgFOOO+ZTvL2wmIow5zuNVhCOhl3zmyiT3NtD5Y2/jxCLsWtQXZPdHP8zsCR20pirSj7oUPDpqRBECQQCANhG5Oo8eP0CU0Ruik7GmA6RuLbryEtCc3urf1VEp/ebhi8ynGyC8FNxwUe+kqYwJHNvkU8WqkxhSoPsU4+WO-----END RSA PRIVATE KEY-----';
-        // const key2 = new NodeRSA({b: 512});
-        // key2.importKey(privatekey, 'pkcs1-private');
-
-        // var decrypted = key2.decrypt(encrypted, 'base64');
-        // console.log('========decrypted: ', decrypted);       
-        // //var flag = key.verify('hithere', encrypted);
-
-        // //console.log('========verify: ', flag==true? "success": "fail");
     }
 
     render() {
@@ -203,29 +67,9 @@ export default class extends Component {
                 <img className='share' src='/static/assets/share.png' alt='' />
                 <img className='ruleShow' src='/static/assets/rule.png' alt='' />
                 <div className='mask'></div>
-                <div className='rankBox'>
-                    <img className='off' src='/static/assets/off.png'  />
-                    <p className='rankTitle'>排行榜</p>
-                    <p className='rankExplain'>排行榜说明排行榜说明排行榜说明排行榜说明排行榜说明排行榜说明</p>
-                    <p className='myScore'>我的得分：10000</p>
-                    <div className='rankList'>
-                        
-                    </div>
-                </div>
                 <div className='beeBox'>
                     <div className='play'></div>
-                    <div className='rank'></div>
                     <div className='rule'></div>
-                </div>
-                <div className='palyAgainBox'>
-                    <div className='frendScore'>
-                        
-                    </div>
-                    <div className='playAgainBg'>
-                        <div className='playAgain'></div>
-                        <div className='rank2'></div>
-                        <div className='rule2'></div>
-                    </div>
                 </div>
                 <style jsx global>
                     {`
@@ -257,10 +101,10 @@ export default class extends Component {
                         }
                         .beeBox{
                             position: absolute;
-                            width: 80%;
-                            height: 99.75vw;
-                            left: 10%;
-                            top:19%;
+                            width: 66%;
+                            height: 81.75vw;
+                            left: 17%;
+                            top: 23%;
                             background-image: url(/static/assets/p1-t2.png);
                             background-repeat: no-repeat;
                             background-size: 100% auto;
@@ -297,9 +141,9 @@ export default class extends Component {
                             // border: 1px solid white;
                         }
                         .beeBox div{
-                            margin-left: 10%;
-                            width: 80%;
-                            // border: 1px solid white;
+                            margin-left: 20%;
+                            width: 60%;
+                            //border: 1px solid white;
                         }
                         .play{
                             margin-top: 81%;
@@ -309,21 +153,9 @@ export default class extends Component {
                             margin-top: 12%;
                             height: 28%;
                         }
-                        .rank{
-                            margin-top: 2%;
-                            height:9%
-                        }
-                        .rank2{
-                            margin-top: 6%;
-                            height: 18%;
-                        }
                         .rule{
                             margin-top: 3%;
                             height: 10%;
-                        }
-                        .rule2{
-                            margin-top: 2%;
-                            height: 17%;
                         }
                         .mask{
                             width: 100%;

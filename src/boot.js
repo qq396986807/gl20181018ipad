@@ -146,16 +146,15 @@ export default class Boot {
                     canvas.height
                 )
                 
-                $(".beeBox").fadeIn(1000,function(){
-                    //绘制首页头顶
-                drawImage(
+                   //绘制首页头顶
+                   drawImage(
                     0,
                     0,
                     'static/assets/p1-t1.png',
                     canvas.width,
-                    canvas.width / 1.953
+                    canvas.width / 2.072
                 )
-                });
+                $(".beeBox").fadeIn(1000);
             }else{
                 drawAni();
             }

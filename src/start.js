@@ -19,9 +19,10 @@ export default class Start {
     BOLD_FONT_SIZE = 48
     CIRCLE_RADIUS = 10
     FirstFlag = true;
+    ani;
 
     draw() {
-        console.log('draw')
+        //console.log('draw')
         // Background
         // drawRect(0, 0, canvas.width, canvas.height, 'black')
         // drawImage(
@@ -133,7 +134,7 @@ export default class Start {
 
         // document.querySelector('.play').addEventListener("touchstart", this.onTouch)
         document.querySelector('.play').addEventListener("mousedown", this.showTutorial)
-        document.querySelector('.playAgain').addEventListener("mousedown", this.onTouch)
+        //document.querySelector('.playAgain').addEventListener("mousedown", this.onTouch)
 
         // if(localStorage.key('bestScore') !== null) {
         //     this.bestScore = localStorage.getItem('bestScore')
@@ -173,6 +174,8 @@ export default class Start {
         )
         $(".beeBox").hide();
         canvas.addEventListener("mousedown", this.onTouch)
+        document.querySelector('.play').removeEventListener("mousedown", this.showTutorial)
+        document.querySelector('.play').addEventListener("mousedown", this.onTouch)
     }
 
     onTouch = (evt) => {
@@ -193,19 +196,19 @@ export default class Start {
                 n++;
             }
 
-            var ani = setInterval(function(){
+            this.ani = setInterval(function(){
                 if(n>208){
-                    clearInterval(ani);
+                    clearInterval(this.ani);
                 }else{
                     drawAni();
                 }
-                //console.log(n)
-            },1000/20)
+                console.log(n)
+            }.bind(this),1000/20)
             canvas.addEventListener("mousedown", this.onTouch)
             this.FirstFlag = false;
         }else{
             evt.preventDefault();
-
+            clearInterval(this.ani);
             if(evt.type === 'touchstart') {
                 this.useTouch = true
             }

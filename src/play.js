@@ -12,7 +12,7 @@ export default class Play {
 	CIRCLE_DIAMETER = this.CIRCLE_RADIUS * 2
 	LINE_WIDTH = 3;
 	BLOCK_MARGIN = 1
-	SPEED = 4.5
+	SPEED = 9//游戏速度
 
 	framesPerSecond = 60;
 	startAnimationEnded = false;
@@ -37,11 +37,14 @@ export default class Play {
 	points = []
 	blocks = []
 	lines = []
+	finish = 0;//终点的线y值
 	hitBlock = null
 	restartOpacity = 0
 	reverseOpacity = false
 	dieBeeFlag = false;
 	dieBeeFlag2 = true;
+	finishFlag = false;
+	gameOver;
 
 	availableCircle = {
 		x: 0,
@@ -49,6 +52,21 @@ export default class Play {
 		value: 4
 	}
 
+	finishGame() {
+		if(this.finishFlag){
+			this.finish = this.finish + this.SPEED * scale;
+			if(this.finish>1841){
+				this.end = true;
+			}
+			drawImage(
+				0,
+				this.finish,
+				'static/assets/finishLine.png',
+				canvas.width,
+				canvas.width / 8.486
+			)
+		}
+	}
 	draw() {
 		// console.log(111);
 		//drawRect(0, 0, canvas.width, canvas.height, 'black')
@@ -99,58 +117,58 @@ export default class Play {
 				point.x,
 				point.y,
 				'static/assets/count.png',
-				150,
-				150
+				250,
+				250
 			)
 
 			drawText(
-				point.x + 32 * scale,
-				point.y + 46 * scale,
-				20 * scale,
-				'white',
+				point.x + 50 * scale,
+				point.y + 75 * scale,
+				40 * scale,
+				'black',
 				'Montserrat-Regular',
 				point.value
 			)
 		}
 
 		if (this.end === true) {
-			// if(this.dieBeeFlag === true){
+			drawImage(
+				0,
+				0,
+				'static/assets/bg.png',
+				canvas.width,
+				canvas.height
+			)
+
+			if(this.finishFlag){
+				//绘制首页头顶
 				drawImage(
 					0,
 					0,
-					'static/assets/bg.png',
+					'static/assets/finishTitle.png',
 					canvas.width,
-					canvas.height
+					canvas.width / 4.697
 				)
-	
-				//绘制头部
+			}else{
+				clearInterval(this.gameOver);
+				//绘制首页头顶
 				drawImage(
 					0,
 					0,
-					'static/assets/p2-t1.png',
+					'static/assets/p1-t1.png',
 					canvas.width,
-					canvas.width / 3.5714
+					canvas.width / 2.072
 				)
-	
-				//绘制分数
-				drawText(
-					halfCanvasWidth -  (65 * scale),
-					halfCanvasHeight / 1.7,
-					20 * scale,
-					'white',
-					'Montserrat-Regular',
-					'MY LEVEL ' + this.score * 10 
-					)
-					sessionStorage.setItem('liveScore',this.score * 10);
-					$(".palyAgainBox").fadeIn(500);
-			// }
+			}
+			$(".beeBox").fadeIn(500)
+
 		} else {
 			// if(this.dieBeeFlag2){
 					// Current player available points
 				drawText(
-					this.availableCircle.x + 45,
+					this.availableCircle.x + 88,
 					this.availableCircle.y + 30,
-					20 * scale,
+					30 * scale,
 					'#ffd29a',
 					'Montserrat-Regular',
 					this.availableCircle.value
@@ -171,39 +189,47 @@ export default class Play {
 							circle.x - 50,
 							circle.y - 50,
 							'static/assets/bee.png',
-							200,
-							200
+							300,
+							300
+						)
+						drawImage(
+							circle.x + 86,
+							circle.y + 200,
+							'static/assets/ball.png',
+							30,
+							30
 						)
 						bee++;
 					}else{
 						drawImage(
-							circle.x + 43,
-							circle.y + 70,
+							circle.x + 86,
+							circle.y + 200,
 							'static/assets/ball.png',
-							20,
-							20
+							30,
+							30
 						)
 					}
+					// console.log(circle.y)
 					
 				}
 
 				//创建分数的背景
-				drawImage(
-					0,
-					0,
-					'static/assets/score.png',
-					canvas.width,
-					canvas.width / 4.286
-				)
+				// drawImage(
+				// 	0,
+				// 	0,
+				// 	'static/assets/score.png',
+				// 	canvas.width,
+				// 	canvas.width / 4.286
+				// )
 
-				drawText(
-					halfCanvasWidth - (45 * scale),
-					23 * scale,
-					20 * scale,
-					'white',
-					'Montserrat-Regular',
-					'分数: '+this.score * 10
-				)
+				// drawText(
+				// 	halfCanvasWidth - (45 * scale),
+				// 	23 * scale,
+				// 	20 * scale,
+				// 	'white',
+				// 	'Montserrat-Regular',
+				// 	'分数: '+this.score * 10
+				// )
 			}
 		// }
 	
@@ -277,9 +303,9 @@ export default class Play {
 		}
 
 		const margin = (this.BLOCK_MARGIN * scale)
-		const blockSize = (canvas.width / 5)
+		const blockSize = (canvas.width / 8)
 
-		for (let i = 0; i < 5; i++) {
+		for (let i = 0; i < 8; i++) {
 
 			let x;
 
@@ -321,11 +347,18 @@ export default class Play {
 			if (blockBottomPosition >= (playerY - (this.CIRCLE_DIAMETER + 1))
 				&& blockBottomPosition <= (playerY + this.CIRCLE_DIAMETER)
 			) {
+				// console.log(
+				// 	playerX > (block.x - blockMargin)
+				// 	&& playerX < ((block.x - blockMargin) + (block.size + blockMargin))
+				// )
+				// console.log('a='+playerX);
+				// console.log('b='+(block.x - blockMargin));
+				// console.log('c='+((block.x - blockMargin) + (block.size + blockMargin)));
 				// Collision X
-				if (playerX > (block.x - blockMargin)
-					&& playerX < ((block.x - blockMargin) + (block.size + blockMargin))
+				if (playerX >= (block.x - blockMargin)
+					&& playerX <= ((block.x - blockMargin) + (block.size + blockMargin))
 				) {
-
+	
 					if (block.value > 0) {
 						this.blocked = true
 						this.hitBlock = block
@@ -455,19 +488,6 @@ export default class Play {
 				if(this.bestScore === 0 || this.score * 10 > this.bestScore) {
 					this.newBestScore = true
 					this.bestScore = this.score
-					var userData = localStorage.getItem('data');
-					userData = JSON.parse(userData);
-					$.ajax({
-						url:'https://guerlain.wechat.wcampaign.cn/user/update',
-						type:'POST',
-						data:{openid:userData.original.openid,currentscore:this.score * 10},
-						success:function (data) {
-							if(data == 1){
-								alert('您刷新了记录！')
-							}	
-						}
-					})
-					localStorage.setItem('bestScore', this.score * 10)
 				}
 
 				window.requestAnimationFrame(this.restartLabelAnimation)
@@ -492,7 +512,7 @@ export default class Play {
 		for (var i = 0; i < numberOfPoints; i++) {
 			this.points.push({
 				x: this.cols[i],
-				y: -40,
+				y: -200,
 				value: Math.floor(Math.random() * 5) + 1
 			})
 		}
@@ -687,6 +707,8 @@ export default class Play {
 			this.updatePoints()
 			this.updateLines()
 			this.draw()
+			this.finishGame()
+			
 
 			window.requestAnimationFrame(this.playAnimation)
 		} else {
@@ -722,11 +744,18 @@ export default class Play {
 		this.blocked = false
 		this.hitBlock = null
 		this.end = false
+		this.finish = 0;
+		this.finishFlag = false;
 		this.lastCoordinateX = 0
 		//分数重置
 		this.score = 0;
 		this.dieBeeFlag = false;
 		this.dieBeeFlag2 = true;
+		this.gameOver = setTimeout(function(){
+			this.finishFlag = true;
+			//this.end = true;
+			// console.log(this.end)
+		}.bind(this),20000)
 
 		const defaultX = halfCanvasWidth
 		const defaultY = halfCanvasHeight + (canvas.height / 6)
