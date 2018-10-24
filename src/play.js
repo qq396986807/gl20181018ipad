@@ -12,7 +12,7 @@ export default class Play {
 	CIRCLE_DIAMETER = this.CIRCLE_RADIUS * 2
 	LINE_WIDTH = 3;
 	BLOCK_MARGIN = 1
-	SPEED = 9//游戏速度
+	SPEED = 4//游戏速度
 
 	framesPerSecond = 60;
 	startAnimationEnded = false;
@@ -124,7 +124,7 @@ export default class Play {
 			)
 
 			drawText(
-				point.x + 50 * scale,
+				point.x + 52 * scale,
 				point.y + 75 * scale,
 				40 * scale,
 				'black',
@@ -222,12 +222,12 @@ export default class Play {
 				)
 
 				drawText(
-					halfCanvasWidth - (75 * scale),
-					55 * scale,
-					45* scale,
+					halfCanvasWidth - (115 * scale),
+					45 * scale,
+					35 * scale,
 					'white',
 					'Montserrat-Regular',
-					'剩余: '+this.timeSecond
+					'剩余时间: '+this.timeSecond + " 秒"
 				)
 					// console.log(circle.y)
 					
