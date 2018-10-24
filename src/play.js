@@ -45,6 +45,8 @@ export default class Play {
 	dieBeeFlag2 = true;
 	finishFlag = false;
 	gameOver;
+	timeSecondInt;//倒计时定时器
+	timeSecond = 15;
 
 	availableCircle = {
 		x: 0,
@@ -132,6 +134,7 @@ export default class Play {
 		}
 
 		if (this.end === true) {
+			
 			drawImage(
 				0,
 				0,
@@ -209,6 +212,23 @@ export default class Play {
 							30
 						)
 					}
+					//创建分数的背景
+				drawImage(
+					0,
+					0,
+					'/static/assets/ipad-title.png',
+					canvas.width,
+					canvas.width / 10.172
+				)
+
+				drawText(
+					halfCanvasWidth - (75 * scale),
+					55 * scale,
+					45* scale,
+					'white',
+					'Montserrat-Regular',
+					'剩余: '+this.timeSecond
+				)
 					// console.log(circle.y)
 					
 				}
@@ -765,11 +785,21 @@ export default class Play {
 		this.score = 0;
 		this.dieBeeFlag = false;
 		this.dieBeeFlag2 = true;
+		this.timeSecond = 15;
 		this.gameOver = setTimeout(function(){
 			this.finishFlag = true;
 			//this.end = true;
 			// console.log(this.end)
-		}.bind(this),20000)
+		}.bind(this),15000)
+
+		clearInterval(this.timeSecondInt);
+		this.timeSecondInt = setInterval(function(){
+			if(this.timeSecond == 0){
+				clearInterval(this.timeSecondInt);
+			}else{
+				this.timeSecond = parseInt(this.timeSecond) - 1;
+			}
+		}.bind(this),1000)
 
 		const defaultX = halfCanvasWidth
 		const defaultY = halfCanvasHeight + (canvas.height / 6)
