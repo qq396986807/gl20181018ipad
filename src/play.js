@@ -517,12 +517,16 @@ export default class Play {
 				
 				//结束
 				canvas.removeEventListener("touchmove", this.onTouch);
-				//scanvas.addEventListener("touchstart", this.onTouch);
+				this.restart = true
+				document.removeEventListener("visibilitychange", this.onTabFocusOff)
+				return this.showStartScreen(this.run.bind(this));
+				//canvas.addEventListener("touchstart", this.onTouch);
 
 				if(this.bestScore === 0 || this.score * 10 > this.bestScore) {
 					this.newBestScore = true
 					this.bestScore = this.score
 				}
+
 
 				window.requestAnimationFrame(this.restartLabelAnimation)
 			}

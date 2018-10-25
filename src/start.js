@@ -133,7 +133,10 @@ export default class Start {
         //canvas.addEventListener("mousedown", this.onTouch)
 
         // document.querySelector('.play').addEventListener("touchstart", this.onTouch)
+        document.querySelector('.play').removeEventListener("mousedown", this.onTouch)
         document.querySelector('.play').addEventListener("mousedown", this.showTutorial)
+        this.FirstFlag = true;
+        
         //document.querySelector('.playAgain').addEventListener("mousedown", this.onTouch)
 
         // if(localStorage.key('bestScore') !== null) {
@@ -179,6 +182,8 @@ export default class Start {
     }
 
     onTouch = (evt) => {
+
+
         $(".beeBox").hide();
         $(".palyAgainBox").hide();
         if(this.FirstFlag){
@@ -223,6 +228,7 @@ export default class Start {
 
             this.runGame(this.show.bind(this))
         }
+
         
       }
 }
