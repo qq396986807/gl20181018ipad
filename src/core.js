@@ -88,7 +88,7 @@ export class Core {
             }
 
             //var img = assetsRoot + '/animation/welcomescreen/'+fileName+'.png';
-            var img = 'https://glcdn.wcampaign.cn/ipadassets/animation/welcomescreen-jpg/'+fileName+'.jpg';
+            var img = 'https://cdn.wcampaign.cn/20181019gl/app/static/assets/animation/welcomescreen-jpg/'+fileName+'.jpg';
 
             homePageAssetsPath.push(img);
         }
@@ -111,7 +111,7 @@ export class Core {
             }
 
             //var img = assetsRoot + '/animation/tutorial/'+fileName+'.png';
-            var img = 'https://glcdn.wcampaign.cn/ipadassets/animation/tutorial-jpg/'+fileName+'.jpg';
+            var img = 'https://cdn.wcampaign.cn/20181019gl/app/static/assets/animation/tutorial-jpg/'+fileName+'.jpg';
 
             tutorialPageAssetsPath.push(img);
         }
@@ -128,7 +128,7 @@ export class Core {
             }
 
             //var img = assetsRoot + '/animation/beedie/'+fileName+'.png';
-            var img = 'https://glcdn.wcampaign.cn/ipadassets/animation/beedie/'+fileName+'.png';
+            var img = 'https://cdn.wcampaign.cn/20181019gl/app/static/assets/animation/beedie/'+fileName+'.png';
    
             beeDiePageAssetsPath.push(img);
         }
