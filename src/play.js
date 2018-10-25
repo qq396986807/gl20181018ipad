@@ -59,6 +59,9 @@ export default class Play {
 			this.finish = this.finish + this.SPEED * scale;
 			if(this.finish>1841){
 				this.end = true;
+				this.restart = true
+				document.removeEventListener("visibilitychange", this.onTabFocusOff)
+				return this.showStartScreen(this.run.bind(this));
 			}
 			drawImage(
 				0,
@@ -70,8 +73,6 @@ export default class Play {
 		}
 	}
 	draw() {
-		// console.log(111);
-		//drawRect(0, 0, canvas.width, canvas.height, 'black')
 		//绘制背景
 		drawImage(
             0,
@@ -115,6 +116,9 @@ export default class Play {
 			// 	this.CIRCLE_RADIUS * scale,
 			// 	`rgb(255, 204, 0)`
 			// )
+			// console.log('ppppp='+point.y);
+			// console.log('bbbb='+this.blocks[0].y);
+			// console.log('bbbb22222222='+this.blocks[1].y);
 			drawImage(
 				point.x,
 				point.y,
@@ -353,7 +357,7 @@ export default class Play {
 
 			this.blocks.push({
 				x: x,
-				y: -(blockSize * 4),
+				y: -(blockSize * 1),
 				size: blockSize - (margin * 2),
 				value: value,
 				color: this.getBlockColor(value)
@@ -550,7 +554,7 @@ export default class Play {
 		for (var i = 0; i < numberOfPoints; i++) {
 			this.points.push({
 				x: this.cols[i],
-				y: -200,
+				y: 100,
 				value: Math.floor(Math.random() * 5) + 1
 			})
 		}
@@ -803,7 +807,7 @@ export default class Play {
 			}else{
 				this.timeSecond = parseInt(this.timeSecond) - 1;
 			}
-		}.bind(this),1000)
+		}.bind(this),1200)
 
 		const defaultX = halfCanvasWidth
 		const defaultY = halfCanvasHeight + (canvas.height / 6)
