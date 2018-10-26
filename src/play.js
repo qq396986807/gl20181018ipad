@@ -138,16 +138,15 @@ export default class Play {
 		}
 
 		if (this.end === true) {
-			
-			drawImage(
-				0,
-				0,
-				'static/assets/bg.png',
-				canvas.width,
-				canvas.height
-			)
-
+			clearInterval(this.gameOver);
 			if(this.finishFlag){
+				drawImage(
+					0,
+					0,
+					'static/assets/bg.png',
+					canvas.width,
+					canvas.height
+				)
 				//绘制首页头顶
 				drawImage(
 					0,
@@ -156,19 +155,8 @@ export default class Play {
 					canvas.width,
 					canvas.width / 4.518
 				)
-			}else{
-				clearInterval(this.gameOver);
-				//绘制首页头顶
-				drawImage(
-					0,
-					0,
-					'static/assets/finishTitle-lose.png',
-					canvas.width,
-					canvas.width / 4.518
-				)
+				$(".beeBox").fadeIn(500)
 			}
-			$(".beeBox").fadeIn(500)
-
 		} else {
 			// if(this.dieBeeFlag2){
 					// Current player available points
@@ -493,33 +481,56 @@ export default class Play {
 				window.cancelAnimationFrame(this.play_animation)
 
 				//绘制蜜蜂死亡
-				// this.dieBeeFlag2 = false;
-				// var n = 0;//帧数
-				// function drawAni(){
-				// 	drawImage(
-				// 		0,
-				// 		0,
-				// 		'static/assets/bg.png',
-				// 		canvas.width,
-				// 		canvas.height
-				// 	)
-				// 	n++;
-				// }
+				this.dieBeeFlag2 = false;
+				var n = 0;//帧数
+				function drawAni(){
+					drawImage(
+						0,
+						0,
+						'static/assets/bg.png',
+						canvas.width,
+						canvas.height
+					)
+					drawImage(
+						canvas.width / 2 - 500,
+						canvas.height / 2 - 500,
+						beeDiePageAssetsPath[n],
+						1000,
+						1000
+					)
+					n++;
+				}
 
-				// var ani = setInterval(function(){
-				// 	if(n>23){
-				// 		this.dieBeeFlag = true;
-				// 		clearInterval(ani);
-				// 	}else{
-				// 		drawAni();
-				// 		console.log(n);
-				// 		console.log(beeDiePageAssetsPath[n]);
-				// 	}
+				var ani = setInterval(function(){
+					if(n>27){
+						drawImage(
+							0,
+							0,
+							'static/assets/bg.png',
+							canvas.width,
+							canvas.height
+						)
+			
+						//绘制首页头顶
+						drawImage(
+							0,
+							0,
+							'static/assets/finishTitle-lose.png',
+							canvas.width,
+							canvas.width / 4.518
+						)
 					
-				// }.bind(this),1000/20)
-
+					$(".beeBox").fadeIn(500)
+						clearInterval(ani);
+					}else{
+						
+						drawAni();
+						// console.log(n);
+						// console.log(beeDiePageAssetsPath[n]);
+					}
+					
+				}.bind(this),100)
 				
-				//结束
 				canvas.removeEventListener("touchmove", this.onTouch);
 				this.restart = true
 				document.removeEventListener("visibilitychange", this.onTabFocusOff)
