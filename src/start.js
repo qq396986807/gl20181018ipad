@@ -133,9 +133,13 @@ export default class Start {
         //canvas.addEventListener("mousedown", this.onTouch)
 
         // document.querySelector('.play').addEventListener("touchstart", this.onTouch)
-        document.querySelector('.play').removeEventListener("mousedown", this.onTouch)
+        if(!this.FirstFlag)
+        {
+            document.querySelector('.play').removeEventListener("mousedown", this.onTouch)
+            this.FirstFlag = true;
+        }
+
         document.querySelector('.play').addEventListener("mousedown", this.showTutorial)
-        this.FirstFlag = true;
         
         //document.querySelector('.playAgain').addEventListener("mousedown", this.onTouch)
 
