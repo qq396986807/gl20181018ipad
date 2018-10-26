@@ -21,6 +21,7 @@ export let tutorialPageAssetsPath = [];
 export let beeDiePageAssetsPath = [];
 
 
+
 const cacheImage = []
 
 const BLOCK_RADIUS = 20
@@ -28,6 +29,8 @@ const BLOCK_RADIUS = 20
 let loader = null;
 let loader2 = null;
 let loader3 = null;
+
+let enableCDN = true;
 
 export class Core {
 
@@ -87,8 +90,12 @@ export class Core {
                 fileName = "000" + i;                                   
             }
 
-            //var img = assetsRoot + '/animation/welcomescreen/'+fileName+'.png';
-            var img = 'https://cdn.wcampaign.cn/20181019gl/app/static/assets/animation/welcomescreen-jpg/'+fileName+'.jpg';
+            var img = assetsRoot + '/animation/welcomescreen/'+fileName+'.png';
+
+            if(enableCDN)
+            {
+              img = 'https://cdn.wcampaign.cn/20181019gl/app/static/assets/animation/welcomescreen-jpg/'+fileName+'.jpg';
+            }
 
             homePageAssetsPath.push(img);
         }
@@ -110,8 +117,12 @@ export class Core {
                 fileName = "00" + i;                                   
             }
 
-            //var img = assetsRoot + '/animation/tutorial/'+fileName+'.png';
-            var img = 'https://cdn.wcampaign.cn/20181019gl/app/static/assets/animation/tutorial-jpg/'+fileName+'.jpg';
+
+            var img = assetsRoot + '/animation/tutorial/'+fileName+'.png';
+            if(enableCDN)
+            { 
+                img = 'https://cdn.wcampaign.cn/20181019gl/app/static/assets/animation/tutorial-jpg/'+fileName+'.jpg';
+            } 
 
             tutorialPageAssetsPath.push(img);
         }
@@ -127,8 +138,11 @@ export class Core {
                 fileName = "000" + i;                                   
             }
 
-            //var img = assetsRoot + '/animation/beedie/'+fileName+'.png';
-            var img = 'https://cdn.wcampaign.cn/20181019gl/app/static/assets/animation/beedie/'+fileName+'.png';
+            var img = assetsRoot + '/animation/beedie/'+fileName+'.png';
+            if(enableCDN)
+            {
+              img = 'https://cdn.wcampaign.cn/20181019gl/app/static/assets/animation/beedie/'+fileName+'.png';
+            }
    
             beeDiePageAssetsPath.push(img);
         }
