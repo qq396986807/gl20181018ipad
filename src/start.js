@@ -211,7 +211,7 @@ export default class Start {
                 }else{
                     drawAni();
                 }
-                console.log(n)
+                
             }.bind(this),1000/20)
             canvas.addEventListener("mousedown", this.onTouch)
             this.FirstFlag = false;

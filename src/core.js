@@ -262,7 +262,7 @@ export class Core {
             let img = new Image();
             img.src = imgArr[num];
             var path = imgArr[num];
-            console.log(path);
+            
             if(num<total){
                 img.onload = function() {
                     cacheImage.push({
