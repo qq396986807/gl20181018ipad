@@ -123,14 +123,14 @@ export default class Play {
 				point.x,
 				point.y,
 				'static/assets/count.png',
-				250,
-				250
+				170,
+				170
 			)
 
 			drawText(
-				point.x + 52 * scale,
-				point.y + 75 * scale,
-				40 * scale,
+				point.x + 36 * scale,
+				point.y + 53 * scale,
+				30 * scale,
 				'black',
 				'Montserrat-Regular',
 				point.value
@@ -161,7 +161,7 @@ export default class Play {
 			// if(this.dieBeeFlag2){
 					// Current player available points
 				drawText(
-					this.availableCircle.x + 88,
+					this.availableCircle.x + 68,
 					this.availableCircle.y + 30,
 					30 * scale,
 					'#ffd29a',
@@ -184,11 +184,11 @@ export default class Play {
 							circle.x - 50,
 							circle.y - 50,
 							'static/assets/bee.png',
-							300,
-							300
+							250,
+							250
 						)
 						drawImage(
-							circle.x + 86,
+							circle.x + 66,
 							circle.y + 200,
 							'static/assets/ball.png',
 							30,
@@ -197,7 +197,7 @@ export default class Play {
 						bee++;
 					}else{
 						drawImage(
-							circle.x + 86,
+							circle.x + 66,
 							circle.y + 200,
 							'static/assets/ball.png',
 							30,
@@ -330,26 +330,28 @@ export default class Play {
 
 		const margin = (this.BLOCK_MARGIN * scale)
 		const blockSize = (canvas.width / 8)
-
+		let num = Math.floor(Math.random()*8);
 		for (let i = 0; i < 8; i++) {
 
-			let x;
+			if(i !== num){
+				let x;
 
-			if (i === 0) {
-				x = margin
-			} else {
-				x = margin + (blockSize * i)
+				if (i === 0) {
+					x = margin
+				} else {
+					x = margin + (blockSize * i)
+				}
+	
+				const value = Math.floor(Math.random() * (this.availableCircle.value * 2)) + 1
+	
+				this.blocks.push({
+					x: x,
+					y: -(blockSize * 1),
+					size: blockSize - (margin * 2),
+					value: value,
+					color: this.getBlockColor(value)
+				})
 			}
-
-			const value = Math.floor(Math.random() * (this.availableCircle.value * 2)) + 1
-
-			this.blocks.push({
-				x: x,
-				y: -(blockSize * 1),
-				size: blockSize - (margin * 2),
-				value: value,
-				color: this.getBlockColor(value)
-			})
 		}
 
 		this.addLines();
