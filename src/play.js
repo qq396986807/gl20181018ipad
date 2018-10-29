@@ -504,7 +504,7 @@ export default class Play {
 				}
 
 				var ani = setInterval(function(){
-					if(n>27){
+					if(n>26){
 						drawImage(
 							0,
 							0,
