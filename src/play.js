@@ -47,6 +47,7 @@ export default class Play {
 	gameOver;
 	timeSecondInt;//倒计时定时器
 	timeSecond = 15;
+	disappearNum = 0;
 
 	availableCircle = {
 		x: 0,
@@ -328,9 +329,15 @@ export default class Play {
 			return false
 		}
 
+		this.disappearNum ++;
 		const margin = (this.BLOCK_MARGIN * scale)
 		const blockSize = (canvas.width / 8)
-		let num = Math.floor(Math.random()*8);
+		let num;
+		if(this.disappearNum % 5 === 0){
+			num = Math.floor(Math.random()*8);
+		}else{
+			num = 10;
+		}
 		for (let i = 0; i < 8; i++) {
 
 			if(i !== num){
