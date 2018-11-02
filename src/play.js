@@ -44,6 +44,7 @@ export default class Play {
 	dieBeeFlag = false;
 	dieBeeFlag2 = true;
 	finishFlag = false;
+	finishLinFlag = true;//撞线不要动标识
 	gameOver;
 	timeSecondInt;//倒计时定时器
 	timeSecond = 15;
@@ -57,7 +58,9 @@ export default class Play {
 
 	finishGame() {
 		if(this.finishFlag){
-			this.finish = this.finish + this.SPEED * scale;
+			if(this.finishLinFlag){
+				this.finish = this.finish + this.SPEED * scale;
+			}
 			if(this.finish>1841){
 				this.end = true;
 				this.restart = true
@@ -484,7 +487,10 @@ export default class Play {
 			this.hitBlock.value -= 1
 			this.hitBlock.color = this.getBlockColor(this.hitBlock.value)
 			this.availableCircle.value -= 1
-
+			this.finishLinFlag = false;
+			if(this.hitBlock.value == 0){
+				this.finishLinFlag = true;
+			}
 			if(this.availableCircle.value === 0 && !this.end) {
 				this.end = true
 				window.cancelAnimationFrame(this.play_animation)
@@ -556,7 +562,6 @@ export default class Play {
 			}
 
 			this.circles.pop()
-  
 		}
 	}
 
