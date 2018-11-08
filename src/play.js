@@ -45,6 +45,7 @@ export default class Play {
 	dieBeeFlag2 = true;
 	finishFlag = false;
 	finishLinFlag = true;//撞线不要动标识
+	overlapFlag = true;//防止重叠
 	gameOver;
 	timeSecondInt;//倒计时定时器
 	timeSecond = 15;
@@ -67,6 +68,25 @@ export default class Play {
 				document.removeEventListener("visibilitychange", this.onTabFocusOff)
 				return this.showStartScreen(this.run.bind(this));
 			}
+			if(this.overlapFlag){
+				this.overlapFlag = false;
+				if(this.blocks.length > 18){//三个砖块
+					if(this.blocks[20].y < 264){
+						this.finish = this.finish - this.blocks[20].y - 48;
+					}
+				}else if(this.blocks.length >12 && this.blocks.length<18){//两行砖块
+					if(this.blocks[12].y < 264){
+						this.finish = this.finish - this.blocks[12].y - 48;
+					}
+				}else{
+					if(this.blocks[2].y < 264){//一行砖块
+						this.finish = this.finish - this.blocks[2].y - 48;
+					}
+				}
+				
+			}
+			console.log(this.finish);
+			// console.log(this.blocks[20].y);
 			drawImage(
 				0,
 				this.finish,
@@ -77,6 +97,7 @@ export default class Play {
 		}
 	}
 	draw() {
+		// console.log(canvas.width / 8);
 		//绘制背景
 		drawImage(
             0,
@@ -818,6 +839,7 @@ export default class Play {
 		this.score = 0;
 		this.dieBeeFlag = false;
 		this.dieBeeFlag2 = true;
+		this.overlapFlag = true;
 		this.timeSecond = 15;
 		this.gameOver = setTimeout(function(){
 			this.finishFlag = true;
