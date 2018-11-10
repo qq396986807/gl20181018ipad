@@ -146,7 +146,7 @@ export default class extends Component {
                             // border: 1px solid white;
                         }
                         .play{
-                            margin-top: 81%;
+                            margin-top: 73%;
                             height:14%
                         }
                         .playAgain{
